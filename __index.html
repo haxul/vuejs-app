@@ -18,56 +18,66 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
 
+    <link rel="stylesheet" href="main.css">
+    <style>
+        .anotherClass {
+            border: 2px solid red;
+        }
+
+        .color {
+            color: red;
+        }
+
+        .size {
+            font-size: 40px;
+        }
+    </style>
 </head>
 <body>
 
 <div class="wrapper">
-    <div class="sample">
-        <input type="text" v-on:input="inputHandle" v-bind:value="username">
-        <hr>
-        <h2 v-if="showName">Hello, {{username}}</h2>
-        <button @click="handleClick">{{buttonName}}</button>
-        <h2>first name is {{firstName}}</h2>
-        <p>Input discount <input v-model="sale"></p>
-        <p v-if="discount">your discount is {{discount}} %</p>
+    <div class="sample" v-bind:class="highlight">
+        <h4>
+            on <input type="radio" name="light" value="on" v-model="light">
+            off <input type="radio" name="light" value="off" v-model="light">
+        </h4>
+
+        <template v-for="(_, name) in styles">
+            <input type="checkbox" v-model="styles[name]">
+            {{name}}
+        </template>
+
+        <p :class="addStyle">Text</p>
+
     </div>
 </div>
 
 <script>
-    const getSale = (sale, callback) => {
-        const types = {
-            newYear: 10
-        }
-        const response = types[sale] ? types[sale] : ""
-        setTimeout(() => callback(response), 500)
-    }
-    const sample = new Vue({
-        el: ".sample",
-        data: {
-            username: "haxul",
-            textInput: "",
-            showName: true,
-            buttonName: "hide",
-            sale: "",
-            discount: ""
-        },
-        computed: {},
-        watch: {
-            sale() {
-                getSale(this.sale, (data) => this.discount = data)
-            }
 
-        }
-        ,
-        methods: {
-            handleClick() {
-                this.showName = !this.showName
-                this.buttonName = this.buttonName === "hide" ? "show" : "hide"
-            },
-            inputHandle(e) {
-                this.username = e.target.value
+    const sample = new Vue({
+        el: ".wrapper",
+        data: {
+            light: "on",
+            styles: {
+                color: false,
+                size: false
             }
-        }
+        },
+        computed: {
+            highlight() {
+                if (this.light === "on") return "anotherClass " + this.light
+                return this.light
+            },
+            addStyle() {
+                const styles = []
+                for (const key in this.styles) {
+                    if (this.styles[key]) styles.push(key)
+                }
+                return styles;
+            }
+        },
+        methods: {},
+
     });
 </script>
 </body>

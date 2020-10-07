@@ -18,54 +18,64 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
 
+    <link rel="stylesheet" href="main.css">
+    <style>
+        .anotherClass {
+            border: 2px solid red;
+        }
+
+        .color {
+            color: red;
+        }
+
+        .size {
+            font-size: 40px;
+        }
+    </style>
 </head>
 <body>
 
 <div class="wrapper">
     <div class="sample">
-        <input type="text" v-on:input="inputHandle" v-bind:value="username">
-        <hr>
-        <h2 v-if="showName">Hello, {{username}}</h2>
-        <button @click="handleClick">{{buttonName}}</button>
-        <h2>first name is {{firstName}}</h2>
-        <p>Input discount <input v-model="sale"></p>
-        <p v-if="discount">your discount is {{discount}} %</p>
+        <h3>{{count}}</h3>
+        <button @click="handleButton">count</button>
+        <app-div :child="'child'" @countevent="handleSetCount"></app-div>
     </div>
 </div>
 
 <script>
-    const getSale = (sale, callback) => {
-        const types = {
-            newYear: 10
-        }
-        const response = types[sale] ? types[sale] : ""
-        setTimeout(() => callback(response), 500)
-    }
-    const sample = new Vue({
-        el: ".sample",
-        data: {
-            username: "haxul",
-            textInput: "",
-            showName: true,
-            buttonName: "hide",
-            sale: "",
-            discount: ""
-        },
-        computed: {},
-        watch: {
-            sale() {
-                getSale(this.sale, (data) => this.discount = data)
-            }
 
+    Vue.component("app-div", {
+        props: ["child"],
+        template: `
+            <div>
+                <h1>hello world {{number}} {{child}}</h1>
+                <button @click="setCount">set 10</button>
+            </div>
+        `,
+        data() {
+            return {
+                number : Math.random()
+            }
+        },
+        methods : {
+            setCount() {
+                this.$emit("countevent", this.number)
+            }
         }
-        ,
+    })
+    const sample = new Vue({
+        el: ".wrapper",
+        data: {
+            count: 0
+        },
         methods: {
-            handleClick() {
-                this.showName = !this.showName
-                this.buttonName = this.buttonName === "hide" ? "show" : "hide"
+            handleButton() {
+                this.count++;
             },
-            inputHandle(e) {
-                this.username = e.target.value
+
+            handleSetCount(e) {
+                this.count = e
             }
         }
     });

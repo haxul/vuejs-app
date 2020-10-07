@@ -18,54 +18,72 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
 
+    <link rel="stylesheet" href="main.css">
+    <style>
+        .anotherClass {
+            border: 2px solid red;
+        }
+
+        .color {
+            color: red;
+        }
+
+        .size {
+            font-size: 40px;
+        }
+    </style>
 </head>
 <body>
 
 <div class="wrapper">
     <div class="sample">
-        <input type="text" v-on:input="inputHandle" v-bind:value="username">
-        <hr>
-        <h2 v-if="showName">Hello, {{username}}</h2>
-        <button @click="handleClick">{{buttonName}}</button>
-        <h2>first name is {{firstName}}</h2>
-        <p>Input discount <input v-model="sale"></p>
-        <p v-if="discount">your discount is {{discount}} %</p>
+        <button @click="toggle">toggle</button>
+        <keep-alive>
+            <app-ul :items="list" v-if="flag"></app-ul>
+            <app-ol :items="list" v-else></app-ol>
+        </keep-alive>
+
     </div>
 </div>
 
 <script>
-    const getSale = (sale, callback) => {
-        const types = {
-            newYear: 10
-        }
-        const response = types[sale] ? types[sale] : ""
-        setTimeout(() => callback(response), 500)
-    }
-    const sample = new Vue({
-        el: ".sample",
-        data: {
-            username: "haxul",
-            textInput: "",
-            showName: true,
-            buttonName: "hide",
-            sale: "",
-            discount: ""
-        },
-        computed: {},
-        watch: {
-            sale() {
-                getSale(this.sale, (data) => this.discount = data)
-            }
 
-        }
-        ,
+    Vue.component("app-ul", {
+        props: {
+            items: Array
+        },
+        template: `
+            <div>
+                <ul>
+                    <li v-for="item in items">{{item}}</li>
+                </ul>
+            </div> `,
+
+
+    })
+
+    Vue.component("app-ol", {
+        props: {
+            items: Array
+        },
+        template: `
+            <div>
+                <ol>
+                    <li v-for="item in items">{{item}}</li>
+                </ol>
+            </div> `,
+
+
+    })
+    const sample = new Vue({
+        el: ".wrapper",
+        data: {
+            list: ["test", "for", "some", "body"],
+            flag: true
+        },
         methods: {
-            handleClick() {
-                this.showName = !this.showName
-                this.buttonName = this.buttonName === "hide" ? "show" : "hide"
-            },
-            inputHandle(e) {
-                this.username = e.target.value
+            toggle() {
+                this.flag = !this.flag
             }
         }
     });

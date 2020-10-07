@@ -23,13 +23,11 @@
 
 <div class="wrapper">
     <div class="sample">
-        <input type="text" v-on:input="inputHandle" v-bind:value="username">
-        <hr>
-        <h2 v-if="showName">Hello, {{username}}</h2>
-        <button @click="handleClick">{{buttonName}}</button>
-        <h2>first name is {{firstName}}</h2>
-        <p>Input discount <input v-model="sale"></p>
-        <p v-if="discount">your discount is {{discount}} %</p>
+        <input v-model="text" @keyup.enter="addLi">
+        <button @click="addLi">add</button>
+        <ul>
+            <li v-for="number in numbers"> {{number}} <button @click="removeLi(number)">-</button></li>
+        </ul>
     </div>
 </div>
 
@@ -44,30 +42,20 @@
     const sample = new Vue({
         el: ".sample",
         data: {
-            username: "haxul",
-            textInput: "",
-            showName: true,
-            buttonName: "hide",
-            sale: "",
-            discount: ""
+            text: "",
+            numbers: []
         },
-        computed: {},
-        watch: {
-            sale() {
-                getSale(this.sale, (data) => this.discount = data)
-            }
-
-        }
-        ,
-        methods: {
-            handleClick() {
-                this.showName = !this.showName
-                this.buttonName = this.buttonName === "hide" ? "show" : "hide"
+        methods : {
+            addLi() {
+                this.numbers.push(this.text)
+                this.text = ""
             },
-            inputHandle(e) {
-                this.username = e.target.value
+
+            removeLi(li) {
+                this.numbers = this.numbers.filter(el => el !== li)
             }
         }
+
     });
 </script>
 </body>
