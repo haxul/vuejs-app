@@ -4,6 +4,7 @@
         <h4 v-for="user in users">
             Name: {{user.name}}, Last name: {{user.lastname}}
         </h4>
+        <slot></slot>
         <router-link to="tran">transition</router-link>
     </div>
 </template>

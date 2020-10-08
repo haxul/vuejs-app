@@ -1,6 +1,9 @@
 <template>
     <div>
         <router-view></router-view>
+        <Input>
+            <h1>{{iText}}</h1>
+        </Input>
     </div>
 </template>
 
@@ -13,7 +16,7 @@
         components: {Input, Transition},
         data() {
             return {
-
+                iText: "some text "
             }
         },
 
