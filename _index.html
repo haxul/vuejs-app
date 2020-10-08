@@ -23,7 +23,7 @@
 
 <div class="wrapper">
     <div class="sample">
-        <input v-model="text" @keyup.enter="addLi">
+        <input v-model="Texter" @keyup.enter="addLi">
         <button @click="addLi">add</button>
         <ul>
             <li v-for="number in numbers"> {{number}} <button @click="removeLi(number)">-</button></li>

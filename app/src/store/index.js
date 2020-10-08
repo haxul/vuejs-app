@@ -3,7 +3,12 @@ import Vuex from "vuex"
 
 Vue.use(Vuex)
 
+import textModule from "./modules/text"
+
 export const store = new Vuex.Store({
+    modules: {
+        textModule
+    },
     state: {
         users: [
             {name: "haxul1", lastname: "starv"},

@@ -7,6 +7,11 @@
         </button>
         <p><input type="text" v-model="firstname"/></p>
         <p><input type="text" v-model="lastname"/></p>
+        <router-link to="input">input</router-link>
+        <p>
+            <router-link to="text">text</router-link>
+
+        </p>
     </div>
 
 </template>

@@ -1,7 +1,6 @@
 <template>
     <div>
-        <Transition></Transition>
-        <Input></Input>
+        <router-view></router-view>
     </div>
 </template>
 
