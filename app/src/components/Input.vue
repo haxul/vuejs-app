@@ -1,14 +1,19 @@
 <template>
     <div>
-        <h4>This is {{text}}</h4>
+        <h2>Users: </h2>
+        <h4 v-for="user in users">
+            Name: {{user.name}}, Last name: {{user.lastname}}
+        </h4>
     </div>
 </template>
 
 <script>
     export default {
         name: "Input",
-        props: {
-            text: String
+        computed: {
+            users() {
+                return this.$store.getters.getUsers
+            }
         }
     }
 </script>

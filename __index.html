@@ -31,11 +31,23 @@
         .size {
             font-size: 40px;
         }
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity .5s;
+        }
+        .fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+            opacity: 0;
+        }
     </style>
 </head>
 <body>
 
 <div class="wrapper">
+    <button v-on:click="show = !show">
+        Переключить
+    </button>
+    <transition name="fade">
+        <p v-if="show">привет</p>
+    </transition>
     <div class="sample" v-bind:class="highlight">
         <h4>
             on <input type="radio" name="light" value="on" v-model="light">
@@ -61,7 +73,8 @@
             styles: {
                 color: false,
                 size: false
-            }
+            },
+            show: true
         },
         computed: {
             highlight() {
